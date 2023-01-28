@@ -1,15 +1,17 @@
 export class Review{
   public id: number;
-  public authorName: string;
-  public date: Date;
+  public userName: string;
+  public date: string;
   public rating: number;
-  public textContent: string;
+  public reviewText: string;
+  public avatarUrl: string;
 
-  constructor(id: number, authorName: string, date: Date, rating: number, textContent: string){
+  constructor(id: number, userName: string, date: string, rating: number, reviewText: string, avatarUrl: string){
     this.id = id;
-    this.authorName = authorName;
+    this.userName = userName;
     this.date = date;
     this.rating = rating;
-    this.textContent = textContent;
+    this.reviewText = reviewText;
+    this.avatarUrl = avatarUrl;
   }
 }

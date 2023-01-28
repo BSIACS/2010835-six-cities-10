@@ -58,10 +58,10 @@ function getPremiumJSX(isPremium: boolean){
 }
 
 function getBookmarkButtonJSX(isFavorite: boolean){
-  const bookmarkOnOffButtonClass = isFavorite ? 'place-card__bookmark-button--active' : 'place-card__bookmark-button';
+  const bookmarkOnOffButtonClass = isFavorite ? 'place-card__bookmark-button--active' : '';
 
   return (
-    <button className={`${bookmarkOnOffButtonClass} button`} type="button">
+    <button className={`place-card__bookmark-button ${bookmarkOnOffButtonClass} button`} type="button">
       <svg className="place-card__bookmark-icon" width="18" height="19">
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
