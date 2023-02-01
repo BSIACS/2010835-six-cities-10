@@ -1,3 +1,4 @@
+import { MapComponent } from '../../../../components/map/map.component';
 import { PlaceCardComponent } from '../../../../components/place-card/place-card.component';
 import { Offer } from '../../../../types/offer';
 
@@ -29,14 +30,10 @@ export function CitiesPlacesContainerComponent({offers}: CitiesPlacesContainerPr
           </ul>
         </form>
         <div className="cities__places-list places__list tabs__content">
-
           {offers.map((offer) => (<PlaceCardComponent key={offer.id} offer={offer}/>))}
-
         </div>
       </section>
-      <div className="cities__right-section">
-        <section className="cities__map map"></section>
-      </div>
+      <MapComponent/>
     </div>
   );
 }
