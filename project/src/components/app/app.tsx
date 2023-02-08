@@ -17,7 +17,7 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<MainPage offers={offers}/>}/>
+        <Route path='/' element={<MainPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/favorite' element={<PrivateRouteComponent authStatus={AuthorizationStatus.AUTH}><FavoritesPage/></PrivateRouteComponent>}/>
         <Route path='/property' element={<PropertyPage/>}/>

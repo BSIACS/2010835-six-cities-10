@@ -1,15 +1,11 @@
 import { HeaderComponent } from '../../components/header/header.component';
-import { Offer } from '../../types/offer';
 import { CitiesPlacesContainerComponent } from './components/cities-places-container/cities-places-container.component';
 import { CitiesTabsComponent } from './components/cities-tabs/cities-tabs.component';
 
-type MainPageProps = {
-  offers: Offer[];
-}
 
 /**Application main page component
 */
-export function MainPage({offers} : MainPageProps) : JSX.Element{
+export function MainPage() : JSX.Element{
 
   return (
     <>
@@ -27,7 +23,7 @@ export function MainPage({offers} : MainPageProps) : JSX.Element{
             <CitiesTabsComponent/>
           </div>
           <div className="cities">
-            <CitiesPlacesContainerComponent offers={offers}/>
+            <CitiesPlacesContainerComponent/>
           </div>
         </main>
       </div>

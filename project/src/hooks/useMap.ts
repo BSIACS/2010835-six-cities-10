@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Map, TileLayer, Marker, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 
-export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>): Map | null {
+export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>, city: string): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isAlreadyCalled: MutableRefObject<boolean> = useRef(false);
 
@@ -17,13 +18,6 @@ export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>)
     if(mapContainerRef.current !== null && map === null){
       const instance = new Map(
         mapContainerRef.current as HTMLElement,
-        {
-          center: {
-            lat: 52.37454,
-            lng: 4.897976
-          },
-          zoom: 14
-        }
       );
 
       const layer = new TileLayer(
@@ -47,4 +41,3 @@ export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>)
 
   return map;
 }
-
