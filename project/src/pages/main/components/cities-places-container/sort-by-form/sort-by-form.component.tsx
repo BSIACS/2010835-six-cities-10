@@ -1,31 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { setIsSortFormOpened, setSortByValue } from '../../../../../store/slices/application.slice';
 import { RootState } from '../../../../../store/store';
+import { SortByEnum } from '../../../../../types/sort-by.enum';
 import styles from './css/places-sorting-form.module.css';
 import { SortByListItemComponent } from './sort-by-list-item/sort-by-list-item.component';
 
-/**Places sorting form component*/
+/*
+*Sort by form component
+*/
 export function SortByFormComponent(): JSX.Element {
   const actualSortByValue = useSelector((state: RootState) => state.application.sortBy);
-  const [ulDisplayStateCSS, setUlDisplayStateCSS] = useState(styles['places-options-closed']);
+  const isSortFormOpened = useSelector((state: RootState) => state.application.isSortFormOpened);
+  const dispatch = useDispatch();
   const sortListIsClosedCSSClass = styles['places-options-closed'];
   const sortListIsOpenedCSSClass = styles['places-options-opened'];
 
   const handleSortListClick = (evt: React.MouseEvent<HTMLUListElement, MouseEvent>) => {
-    if(ulDisplayStateCSS === sortListIsClosedCSSClass){
-      setUlDisplayStateCSS(sortListIsOpenedCSSClass);
+    evt.stopPropagation();
+
+    if(!isSortFormOpened){
+      dispatch(setIsSortFormOpened(true));
     }
-    else if(ulDisplayStateCSS === sortListIsOpenedCSSClass){
-      setUlDisplayStateCSS(sortListIsClosedCSSClass);
+    else if(isSortFormOpened){
+      dispatch(setIsSortFormOpened(false));
     }
   };
 
   const onListItemClickHandler = (evt: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    setUlDisplayStateCSS(sortListIsClosedCSSClass);
+    evt.stopPropagation();
+    const newSortByValue: SortByEnum = ((evt.currentTarget as HTMLLIElement).outerText as keyof typeof SortByEnum) as SortByEnum;
+    dispatch(setIsSortFormOpened(false));
+    dispatch(setSortByValue(newSortByValue));
   };
+
+  const sortTypes = Object.values(SortByEnum);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -36,12 +45,8 @@ export function SortByFormComponent(): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${ulDisplayStateCSS}`} >
-        <li className="places__option" tabIndex={0}>Popular</li>
-        <li className="places__option" tabIndex={0}>Price: low to high</li>
-        <li className="places__option" tabIndex={0}>Price: high to low</li>
-        <li className="places__option" tabIndex={0}>Top rated first</li>
-        <SortByListItemComponent textContent={'Popular'} handleOnclick={onListItemClickHandler}/>
+      <ul className={`places__options places__options--custom ${isSortFormOpened ? sortListIsOpenedCSSClass : sortListIsClosedCSSClass}`} >
+        {sortTypes.map((sortType) => (<SortByListItemComponent key={sortType} textContent={sortType} handleOnclick={onListItemClickHandler}/>))}
       </ul>
     </form>
   );

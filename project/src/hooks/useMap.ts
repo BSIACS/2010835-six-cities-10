@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { Map, TileLayer, Marker, Icon } from 'leaflet';
+import { Map, TileLayer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 
-export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>, city: string): Map | null {
+export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isAlreadyCalled: MutableRefObject<boolean> = useRef(false);
 
@@ -29,11 +28,6 @@ export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>,
       );
 
       instance.addLayer(layer);
-
-      new Marker({lat: 52.37454, lng: 4.897976}).setIcon(new Icon({
-        iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40]})).addTo(instance);
 
       setMap(instance);
     }
