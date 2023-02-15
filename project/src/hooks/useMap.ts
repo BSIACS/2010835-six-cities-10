@@ -5,6 +5,9 @@ import 'leaflet/dist/leaflet.css';
 
 export function useMap(mapContainerRef: MutableRefObject<HTMLDivElement | null>): Map | null {
   const [map, setMap] = useState<Map | null>(null);
+  /**
+   * Single call flag
+   */
   const isAlreadyCalled: MutableRefObject<boolean> = useRef(false);
 
   useEffect(() => {

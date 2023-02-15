@@ -8,7 +8,6 @@ import { SortByEnum } from '../../types/sort-by.enum';
 export interface ApplicationState{
   selectedCity: CitiesEnum;
   offers: Offer[];
-  offersToShow: Offer[];
   sortBy: SortByEnum;
   isSortFormOpened: boolean;
 }
@@ -16,7 +15,6 @@ export interface ApplicationState{
 const initialState: ApplicationState = {
   selectedCity: CitiesEnum.DUSSELDORF,
   offers: offersMockData,
-  offersToShow: [],
   sortBy: SortByEnum.POPULAR,
   isSortFormOpened: false,
 };
@@ -36,12 +34,9 @@ export const applicationSlice = createSlice({
     setIsSortFormOpened: (state, action: PayloadAction<boolean>) => {
       state.isSortFormOpened = action.payload;
     },
-    setOffersToShow: (state, action: PayloadAction<Offer[]>) => {
-      state.offersToShow = action.payload;
-    },
   }
 });
 
-export const { setActualCity, setSortByValue, setIsSortFormOpened, setOffersToShow } = applicationSlice.actions;
+export const { setActualCity, setSortByValue, setIsSortFormOpened } = applicationSlice.actions;
 
 export const applicationReducer = applicationSlice.reducer;
