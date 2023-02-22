@@ -1,0 +1,11 @@
+.places-options-closed {
+  display: none;
+}
+
+.places-options-opened {
+  display: block;
+}
+
+.places-options:hover {
+  display: block;
+}
