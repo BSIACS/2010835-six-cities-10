@@ -5,7 +5,8 @@ import { CitiesPlacesContainerComponent } from './components/cities-places-conta
 import { CitiesTabsComponent } from './components/cities-tabs/cities-tabs.component';
 
 
-/**Application main page component
+/*
+*Application main page component
 */
 export function MainPage() : JSX.Element{
   const dispatch = useDispatch();

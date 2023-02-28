@@ -12,7 +12,7 @@ export interface ApplicationState{
   isSortFormOpened: boolean;
 }
 
-const initialState: ApplicationState = {
+export const initialState: ApplicationState = {
   selectedCity: CitiesEnum.DUSSELDORF,
   offers: offersMockData,
   sortBy: SortByEnum.POPULAR,
