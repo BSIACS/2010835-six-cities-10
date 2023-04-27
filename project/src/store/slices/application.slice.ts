@@ -1,22 +1,24 @@
 /* eslint-disable no-console */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { offersMockData } from '../../mock-data/offers/offers';
 import { CitiesEnum } from '../../types/cities.enum';
 import { Offer } from '../../types/offer';
 import { SortByEnum } from '../../types/sort-by.enum';
+import { fetchOffersDataAction } from './application.actions';
 
 export interface ApplicationState{
   selectedCity: CitiesEnum;
   offers: Offer[];
   sortBy: SortByEnum;
   isSortFormOpened: boolean;
+  isDataLoading: boolean;
 }
 
 const initialState: ApplicationState = {
   selectedCity: CitiesEnum.DUSSELDORF,
-  offers: offersMockData,
+  offers: [],
   sortBy: SortByEnum.POPULAR,
   isSortFormOpened: false,
+  isDataLoading: false
 };
 
 export const applicationSlice = createSlice({
@@ -34,6 +36,11 @@ export const applicationSlice = createSlice({
     setIsSortFormOpened: (state, action: PayloadAction<boolean>) => {
       state.isSortFormOpened = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchOffersDataAction.pending, () => { console.log('pending...'); })
+      .addCase(fetchOffersDataAction.fulfilled, (state, action: PayloadAction<Offer[]>) => { state.offers = action.payload; });
   }
 });
 
