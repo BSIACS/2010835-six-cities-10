@@ -6,6 +6,8 @@ import { cityFactory } from '../../utils/utils';
 import { Icon, Marker } from 'leaflet';
 import { Offer } from '../../types/offer';
 import { CitiesEnum } from '../../types/cities.enum';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 type MapComponentProps = {
   offersToShow: Offer[];
@@ -17,6 +19,7 @@ type MapComponentProps = {
 */
 export function MapComponent({offersToShow, selectedCity}: MapComponentProps): JSX.Element {
   const mapRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const hoveredPlaceCardId = useSelector((state: RootState) => state.application.hoveredPlaceCardId);
   const map = useMap(mapRef);
   const actualMarkers: MutableRefObject<Marker[]> = useRef([]);
   const actualCityData = cityFactory(selectedCity);
@@ -33,9 +36,9 @@ export function MapComponent({offersToShow, selectedCity}: MapComponentProps): J
 
     offersToShow.map((offer) => {
       const marker = new Marker({ lat: offer.location.latitude, lng: offer.location.longitude }).setIcon(new Icon({
-        iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40]
+        iconUrl: `http://localhost:9999/img/pin${hoveredPlaceCardId === offer.id ? '-active' : ''}.svg`,
+        iconSize: [30, 40],
+        iconAnchor: [15, 40],
       })).addTo(map);
 
       newMarkers.push(marker);

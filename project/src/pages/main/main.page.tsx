@@ -1,5 +1,8 @@
-import { useDispatch } from 'react-redux';
+/* eslint-disable no-console */
+import { useEffect } from 'react';
 import { HeaderComponent } from '../../components/header/header.component';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchOffersDataThunk } from '../../store/slices/application.thunk';
 import { setIsSortFormOpened } from '../../store/slices/application.slice';
 import { CitiesPlacesContainerComponent } from './components/cities-places-container/cities-places-container.component';
 import { CitiesTabsComponent } from './components/cities-tabs/cities-tabs.component';
@@ -8,7 +11,11 @@ import { CitiesTabsComponent } from './components/cities-tabs/cities-tabs.compon
 /**Application main page component
 */
 export function MainPage() : JSX.Element{
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersDataThunk());
+  }, [dispatch]);
 
   return (
     <>
@@ -19,6 +26,7 @@ export function MainPage() : JSX.Element{
       <div className="page page--gray page--main" onClick={(evt) => {evt.stopPropagation(); dispatch(setIsSortFormOpened(false));}}>
 
         <HeaderComponent/>
+
 
         <main className="page__main page__main--index page__main--index-empty">
           <h1 className="visually-hidden">Cities</h1>

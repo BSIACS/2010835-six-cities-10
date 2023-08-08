@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { setActualCity } from '../../../../store/slices/application.slice';

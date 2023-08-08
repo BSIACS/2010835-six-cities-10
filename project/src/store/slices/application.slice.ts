@@ -1,22 +1,26 @@
 /* eslint-disable no-console */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { offersMockData } from '../../mock-data/offers/offers';
 import { CitiesEnum } from '../../types/cities.enum';
 import { Offer } from '../../types/offer';
 import { SortByEnum } from '../../types/sort-by.enum';
+import { fetchOffersDataThunk } from './application.thunk';
 
 export interface ApplicationState{
   selectedCity: CitiesEnum;
   offers: Offer[];
   sortBy: SortByEnum;
   isSortFormOpened: boolean;
+  isDataLoading: boolean;
+  hoveredPlaceCardId: number | null;
 }
 
 const initialState: ApplicationState = {
   selectedCity: CitiesEnum.DUSSELDORF,
-  offers: offersMockData,
+  offers: [],
   sortBy: SortByEnum.POPULAR,
   isSortFormOpened: false,
+  isDataLoading: false,
+  hoveredPlaceCardId: null
 };
 
 export const applicationSlice = createSlice({
@@ -34,9 +38,17 @@ export const applicationSlice = createSlice({
     setIsSortFormOpened: (state, action: PayloadAction<boolean>) => {
       state.isSortFormOpened = action.payload;
     },
+    setHoveredPlaceCardId: (state, action: PayloadAction<number | null>) => {
+      state.hoveredPlaceCardId = action.payload;
+    },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchOffersDataThunk.pending, () => { console.log('pending...'); })
+      .addCase(fetchOffersDataThunk.fulfilled, (state, action: PayloadAction<Offer[]>) => { state.offers = action.payload; });
   }
 });
 
-export const { setActualCity, setSortByValue, setIsSortFormOpened } = applicationSlice.actions;
+export const { setActualCity, setSortByValue, setIsSortFormOpened, setHoveredPlaceCardId } = applicationSlice.actions;
 
 export const applicationReducer = applicationSlice.reducer;
