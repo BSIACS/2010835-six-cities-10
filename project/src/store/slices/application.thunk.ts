@@ -8,8 +8,8 @@ import axios from 'axios';
 import { Offer } from '../../types/offer';
 
 
-export const fetchOffersDataAction = createAsyncThunk(
-  'application/fetchOffersDataAction',
+export const fetchOffersDataThunk = createAsyncThunk(
+  'application/fetchOffersDataThunk',
   async (payload, thunkApi) => {
     try {
       const response = await axios.get<Offer[]>('https://10.react.pages.academy/six-cities/hotels');

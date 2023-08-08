@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CitiesEnum } from '../../types/cities.enum';
 import { Offer } from '../../types/offer';
 import { SortByEnum } from '../../types/sort-by.enum';
-import { fetchOffersDataAction } from './application.actions';
+import { fetchOffersDataThunk } from './application.thunk';
 
 export interface ApplicationState{
   selectedCity: CitiesEnum;
@@ -11,6 +11,7 @@ export interface ApplicationState{
   sortBy: SortByEnum;
   isSortFormOpened: boolean;
   isDataLoading: boolean;
+  hoveredPlaceCardId: number | null;
 }
 
 const initialState: ApplicationState = {
@@ -18,7 +19,8 @@ const initialState: ApplicationState = {
   offers: [],
   sortBy: SortByEnum.POPULAR,
   isSortFormOpened: false,
-  isDataLoading: false
+  isDataLoading: false,
+  hoveredPlaceCardId: null
 };
 
 export const applicationSlice = createSlice({
@@ -36,14 +38,17 @@ export const applicationSlice = createSlice({
     setIsSortFormOpened: (state, action: PayloadAction<boolean>) => {
       state.isSortFormOpened = action.payload;
     },
+    setHoveredPlaceCardId: (state, action: PayloadAction<number | null>) => {
+      state.hoveredPlaceCardId = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchOffersDataAction.pending, () => { console.log('pending...'); })
-      .addCase(fetchOffersDataAction.fulfilled, (state, action: PayloadAction<Offer[]>) => { state.offers = action.payload; });
+      .addCase(fetchOffersDataThunk.pending, () => { console.log('pending...'); })
+      .addCase(fetchOffersDataThunk.fulfilled, (state, action: PayloadAction<Offer[]>) => { state.offers = action.payload; });
   }
 });
 
-export const { setActualCity, setSortByValue, setIsSortFormOpened } = applicationSlice.actions;
+export const { setActualCity, setSortByValue, setIsSortFormOpened, setHoveredPlaceCardId } = applicationSlice.actions;
 
 export const applicationReducer = applicationSlice.reducer;

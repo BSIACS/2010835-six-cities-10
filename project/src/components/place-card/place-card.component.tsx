@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
+import { useDispatch } from 'react-redux';
 import { Offer } from '../../types/offer';
 import { capitalizeFirstLetter } from '../../utils/utils';
+import { setHoveredPlaceCardId } from '../../store/slices/application.slice';
 
 const APROXIMATE_RATING_STAR_MARKUP_WIDTH = 15;
 
@@ -7,26 +10,38 @@ type PlaceCardProps = {
   offer: Offer;
 }
 
+
 /**Application place card component*/
 export function PlaceCardComponent(props: PlaceCardProps): JSX.Element {
+  const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {id, city, previewImage, images, title, isFavorite, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, location} = props.offer;
 
+  const handleOnMouseEnter = (evt: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    evt.stopPropagation();
+    dispatch(setHoveredPlaceCardId(id));
+  };
+
+  const handleOnMouseLeave = (evt: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    evt.stopPropagation();
+    dispatch(setHoveredPlaceCardId(null));
+  };
+
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseEnter={ handleOnMouseEnter } onMouseLeave={ handleOnMouseLeave }>
 
       {getPremiumJSX(isPremium)}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"></img>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"></img>
         </a>
       </div>
-      <div className="place-card__info">
-        <div className="place-card__price-wrapper">
-          <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{price}</b>
-            <span className="place-card__price-text">&#47;&nbsp;night</span>
+      <div className="place-card__info" >
+        <div className="place-card__price-wrapper" >
+          <div className="place-card__price" >
+            <b className="place-card__price-value" >&euro;{price}</b>
+            <span className="place-card__price-text" >&#47;&nbsp;night</span>
           </div>
 
           {getBookmarkButtonJSX(isFavorite)}
